@@ -343,3 +343,18 @@ with tab2:
 
             except Exception as e:
                 st.error(f"Error processing image: {str(e)}")
+
+
+
+
+
+hide_streamlit_style = """
+    <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        .stActionButton {display: none;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
