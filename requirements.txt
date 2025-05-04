@@ -1,0 +1,8 @@
+streamlit
+tensorflow
+pillow
+numpy
+fuzzywuzzy
+python-Levenshtein
+requests
+python-dotenv
