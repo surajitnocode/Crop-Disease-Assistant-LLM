@@ -45,12 +45,16 @@ def call_hf_llm(query, context):
         response = requests.post(api_url, headers=headers, json=payload, timeout=30)
         response.raise_for_status()
         return response.json()[0]["generated_text"].strip()
-    except Exception as e:
+    #except Exception as e:
         #st.error(f"Error calling Hugging Face API: {str(e)}")
         #return None
-        if "402" not in str(e):  # Only show non-402 errors
-            st.error(f"Error calling Hugging Face API: {str(e)}")
-        return None
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 402:
+            return None  # Silently handle 402 error
+        return None  # Silently handle other HTTP errors
+    except Exception:
+        return None  # Silently handle any other errors
+        
 
 # Function to create context from crops_data
 def create_llm_context(crops_data, crop_name=None, disease_name=None):
