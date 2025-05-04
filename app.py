@@ -46,7 +46,10 @@ def call_hf_llm(query, context):
         response.raise_for_status()
         return response.json()[0]["generated_text"].strip()
     except Exception as e:
-        st.error(f"Error calling Hugging Face API: {str(e)}")
+        #st.error(f"Error calling Hugging Face API: {str(e)}")
+        #return None
+        if "402" not in str(e):  # Only show non-402 errors
+            st.error(f"Error calling Hugging Face API: {str(e)}")
         return None
 
 # Function to create context from crops_data
