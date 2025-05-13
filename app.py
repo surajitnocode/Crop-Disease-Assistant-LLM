@@ -48,9 +48,20 @@ def call_hf_llm(query, context):
     #except Exception as e:
         #st.error(f"Error calling Hugging Face API: {str(e)}")
         #return None
-    except requests.exceptions.HTTPError:
+    # except requests.exceptions.HTTPError:
+    #     return None
+    # except Exception:
+    #     return None
+    except requests.exceptions.HTTPError as e:
+        if response.status_code == 402:
+            st.error("Error calling Hugging Face API: 402 Payment Required. Upgrade your Hugging Face plan or check your API token. Using local logic.")
+        elif response.status_code == 429:
+            st.warning("Error calling Hugging Face API: 429 Rate Limit Exceeded. Try again later. Using local logic.")
+        else:
+            st.warning(f"Error calling Hugging Face API: {str(e)}. Using local logic.")
         return None
-    except Exception:
+    except Exception as e:
+        st.warning(f"Error calling Hugging Face API: {str(e)}. Using local logic.")
         return None
         
 
